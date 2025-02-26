@@ -16,3 +16,4 @@ logs
 !/.idea/runConfigurations/
 id_file
 sbt.json
+/.bsp/*
