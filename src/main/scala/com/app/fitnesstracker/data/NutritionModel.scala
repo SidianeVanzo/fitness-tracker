@@ -1,10 +1,11 @@
 package com.app.fitnesstracker.data
 
 object NutritionModel {
-  case class Nutrition(
-                        meal: String,
-                        foods: List[Food]
-                      )
+  case class Meal(
+                   name: String,
+                   foods: List[Food]/*,
+                   date: Option[String]*/
+                 )
 
   case class Food(
                    name: String,
@@ -15,7 +16,7 @@ object NutritionModel {
   }
 
   //todo add a formatter json for enum
-  object Meal extends Enumeration {
+  object MealEnum extends Enumeration {
     type Meal = Value
     val Breakfast, Lunch, Snack_1, Snack_2, Dinner = Value
   }

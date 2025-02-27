@@ -1,23 +1,27 @@
 package com.app.fitnesstracker.utils
 
-import com.app.fitnesstracker.data.NutritionModel.{Food, Nutrition}
-import com.app.fitnesstracker.database.{FoodEntity, NutritionEntity}
+import com.app.fitnesstracker.data.NutritionModel.{Food, Meal}
+import com.app.fitnesstracker.database.{FoodEntity, MealEntity}
+import com.app.fitnesstracker.utils.DateFormatter.dateToString
 
 object NutritionMapper {
 
-  def nutritionEntityToNutritionDTO(
-                                     nutEntity: NutritionEntity,
+  def mealEntityToMealDTO(
+                                     nutEntity: MealEntity,
                                      foods: List[FoodEntity]
-                                   ): Nutrition = {
-    Nutrition(
-      meal = nutEntity.meal, foods = foods.map(foodEntityToFoodDTO)
+                                   ): Meal = {
+    Meal(
+      name = nutEntity.name,
+      foods = foods.map(foodEntityToFoodDTO)/*,
+      date = Option(dateToString(nutEntity.date))*/
     )
   }
 
   def foodEntityToFoodDTO(entity: FoodEntity): Food = {
     Food(
-      name = entity.name, measurementUnit = entity.measurementunit, quantity = entity.quantity.toInt
+      name = entity.name,
+      measurementUnit = entity.measurementunit,
+      quantity = entity.quantity
     )
   }
-
 }
