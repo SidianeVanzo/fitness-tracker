@@ -16,7 +16,6 @@ A RESTful API built with Scala using Akka HTTP. This API is in development but w
 ### **🥗 Nutrition Tracking**
 - Log meals and calorie intake
 - Retrieve daily/weekly calorie consumption
-- Optionally integrate with external APIs (e.g., USDA)
 
 ### **📡 Logging & Monitoring**
 - Store application logs in Elasticsearch via Logstash
