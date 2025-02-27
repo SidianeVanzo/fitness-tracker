@@ -40,7 +40,6 @@ class Router(implicit ec: ExecutionContext) extends JsonSupport {
     path("api" / "nutrition") {
       post {
         entity(as[Nutrition]) { request =>
-          println("ADDING MEAL")
           onComplete(op.nutritionService.createNutrition(request)) {
             case Success(res) => complete(StatusCodes.OK, res)
             case Failure(ex) => complete(StatusCodes.InternalServerError, "Error registering a meal")
