@@ -15,23 +15,13 @@ class Router(implicit ec: ExecutionContext) extends JsonSupport {
   private val op = new OperationRegistry()
   val log: Logger = LoggerFactory.getLogger(getClass)
 
-  lazy val allRoutes: Route = createNutrition ~ getNutritions ~ getNutritionById
-
-  val getNutritions: Route = {
-    path("api" / "nutrition") {
-      get {
-        onComplete(op.nutritionService.getNutritions()) {
-          case Success(res) => complete(StatusCodes.OK, res)
-          case Failure(ex) => complete(StatusCodes.InternalServerError, s"Error while getting a meal. Exception: ${ex.getMessage}")
-        }
-      }
-    }
-  }
+  lazy val allRoutes: Route = createNutrition ~ getNutritionById
 
   val getNutritionById: Route = {
-    path("api" / "nutrition" / IntNumber) { id =>
+    path("api" / "nutrition")
+    parameter("date".optional) { date =>
       get {
-        onComplete(op.nutritionService.getNutrition(id)) {
+        onComplete(op.nutritionService.getDailyNutrition(date)) {
           case Success(res) => complete(StatusCodes.OK, res)
           case Failure(ex) => complete(StatusCodes.InternalServerError, s"Error while getting a meal. Exception: ${ex.getMessage}")
         }

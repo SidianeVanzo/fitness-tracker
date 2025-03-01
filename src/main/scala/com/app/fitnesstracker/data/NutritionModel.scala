@@ -3,8 +3,8 @@ package com.app.fitnesstracker.data
 object NutritionModel {
   case class Meal(
                    name: String,
-                   foods: List[Food]/*,
-                   date: Option[String]*/
+                   foods: List[Food],
+                   date: Option[String]
                  )
 
   case class Food(

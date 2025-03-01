@@ -4,16 +4,16 @@ import slick.jdbc.PostgresProfile.api._
 
 import java.sql.Date
 
-case class MealEntity(id: Option[Int] = None, name: String/*, date: Date*/)
+case class MealEntity(id: Option[Int] = None, name: String, date: Date)
 case class FoodEntity(id: Option[Int] = None, mealId: Int, name: String, measurementunit: String, quantity: Double)
 
 class MealTable(tag: Tag) extends Table[MealEntity](tag, "meal") {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
-//  def date = column[Date]("date")
+  def date = column[Date]("date")
 
   def * =
-    (id.?, name/*, date*/) <> (MealEntity.tupled, MealEntity.unapply)
+    (id.?, name, date) <> (MealEntity.tupled, MealEntity.unapply)
 }
 
 class FoodTable(tag: Tag) extends Table[FoodEntity](tag, "food") {

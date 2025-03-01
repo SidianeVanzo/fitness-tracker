@@ -12,8 +12,8 @@ object NutritionMapper {
                                    ): Meal = {
     Meal(
       name = nutEntity.name,
-      foods = foods.map(foodEntityToFoodDTO)/*,
-      date = Option(dateToString(nutEntity.date))*/
+      foods = foods.map(foodEntityToFoodDTO),
+      date = Option(dateToString(nutEntity.date))
     )
   }
 

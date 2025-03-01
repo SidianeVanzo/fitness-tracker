@@ -15,24 +15,13 @@ import scala.concurrent.{ExecutionContext, Future}
 class NutritionService(implicit ec: ExecutionContext) {
   private val log = LoggerFactory.getLogger(getClass)
 
-  def getNutritions(): Future[List[Meal]] = {
-    log.info("Trying do get all nutritions from the database")
+  def getDailyNutrition(dateOpt: Option[String]): Future[Meal] = {
+    log.info(s"Trying do get all the information of nutrition $dateOpt")
+    val date = dateOpt.map(stringToDate).getOrElse(Date.valueOf(LocalDate.now()))
+
     val query = for {
       (n, f) <- Tables.meal joinLeft Tables.food on (_.id === _.mealId)
-    } yield (n, f)
-
-    db.run(query.result).map { rows =>
-      rows.groupBy(_._1).map {
-        case (nutrition, foods) => mealEntityToMealDTO(nutrition, foods.flatMap(_._2).toList)
-      }.toList
-    }
-  }
-
-  def getNutrition(id: Int): Future[Meal] = {
-    log.info(s"Trying do get all the information of nutrition $id")
-    val query = for {
-      (n, f) <- Tables.meal joinLeft Tables.food on (_.id === _.mealId)
-      if n.id === id
+      if n.date === date
     } yield (n, f)
 
     db.run(query.result).map { rows =>
@@ -40,17 +29,17 @@ class NutritionService(implicit ec: ExecutionContext) {
           case (nutrition, foods) => mealEntityToMealDTO(nutrition, foods.flatMap(_._2).toList)
         }
         .headOption
-        .getOrElse(throw new NoSuchElementException(s"Nutrition entry with ID $id not found"))
+        .getOrElse(throw new NoSuchElementException(s"Nutrition entry with for $date not found"))
     }
   }
 
   def createNutrition(req: Meal): Future[Unit] = {
     log.info("Trying do create a new meal")
 
-//    val date = req.date.map(stringToDate).getOrElse(Date.valueOf(LocalDate.now()))
+    val date = req.date.map(stringToDate).getOrElse(Date.valueOf(LocalDate.now()))
 
     val query = for {
-      nutritionId <- (Tables.meal returning Tables.meal.map(_.id)) += MealEntity(None, req.name/*, date*/)
+      nutritionId <- (Tables.meal returning Tables.meal.map(_.id)) += MealEntity(None, req.name, date)
       _ <- Tables.food ++= req.foods.map { food =>
         FoodEntity(None, nutritionId, food.name, food.measurementUnit, food.quantity)
       }
