@@ -6,7 +6,6 @@ import akka.http.scaladsl.server._
 import com.app.fitnesstracker.data.NutritionModel.Meal
 import com.app.fitnesstracker.utils.JsonSupport
 import org.slf4j.{Logger, LoggerFactory}
-import spray.json.DefaultJsonProtocol.listFormat
 
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}

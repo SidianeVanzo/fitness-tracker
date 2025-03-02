@@ -7,9 +7,9 @@ import com.app.fitnesstracker.utils.DateFormatter.dateToString
 object NutritionMapper {
 
   def mealEntityToMealDTO(
-                                     nutEntity: MealEntity,
-                                     foods: List[FoodEntity]
-                                   ): Meal = {
+                           nutEntity: MealEntity,
+                           foods: List[FoodEntity]
+                         ): Meal = {
     Meal(
       name = nutEntity.name,
       foods = foods.map(foodEntityToFoodDTO),

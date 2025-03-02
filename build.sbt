@@ -18,7 +18,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick"         %% "slick-hikaricp"                    % "3.5.2",
   //log libs
   "ch.qos.logback"              % "logback-classic"                   % "1.5.11",
-  "net.logstash.logback"        % "logstash-logback-encoder"          % "8.0"
+  "net.logstash.logback"        % "logstash-logback-encoder"          % "8.0",
+  //unit test
+  "org.scalatest"     %% "scalatest"  % "3.2.19"  % Test,
+  "org.mockito"       %% "mockito-scala" % "1.17.37" % Test
 )
 
 lazy val root = (project in file("."))
